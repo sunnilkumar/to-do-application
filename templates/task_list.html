@@ -1,0 +1,135 @@
+<!-- todo_app/templates/todo_app/task_list.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task List</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f8f8;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+        width: 80%;
+        max-width: 600px;
+      }
+
+      li {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+        transition: background-color 0.3s ease;
+      }
+
+      li:hover {
+        background-color: #f0f0f0;
+      }
+
+      strong {
+        font-size: 18px;
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+      }
+
+      p {
+        color: #555;
+        margin-bottom: 10px;
+      }
+
+      span.completed {
+        color: green;
+        font-weight: bold;
+      }
+
+      span.pending {
+        color: red;
+        font-weight: bold;
+      }
+
+      a {
+        text-decoration: none;
+        color: #3498db;
+        margin-right: 10px;
+        transition: color 0.3s ease;
+      }
+
+      a:hover {
+        color: #2075c1;
+      }
+
+      .add-task-link {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .add-task-link a {
+        padding: 10px 15px;
+        background-color: #3498db;
+        color: #fff;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+      }
+
+      .add-task-link a:hover {
+        background-color: #2075c1;
+      }
+      .logout {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Task List</h1>
+    <ul>
+      {% for task in tasks %}
+      <li>
+        <strong>{{ task.title }}</strong>
+        {% if task.description %}
+        <p>{{ task.description }}</p>
+        {% endif %} {% if task.completed %}
+        <span class="completed">Completed</span>
+        {% else %}
+        <span class="pending">Pending</span>
+        {% endif %}
+        <br />
+        {% if task.completed %}
+        <a href="{% url 'delete_task' task.id %}">Delete</a>
+        {% else %}
+        <a href="{% url 'update_task' task.id %}">Update</a>
+        <a href="{% url 'delete_task' task.id %}">Delete</a>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="add-task-link">
+      <a href="{% url 'add_task' %}">Add Task</a>
+    </div>
+    <a class="logout" href="{% url 'logout-user' %}">Logout?</a>
+  </body>
+</html>
